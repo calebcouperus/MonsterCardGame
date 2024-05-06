@@ -109,6 +109,9 @@ def add_card():
         except ValueError:
             easygui.msgbox('Please enter Strength, Speed, Stealth, '
                            'and Cunning as integers from 1 - 25.')
+        else:
+            easygui.msgbox('Please enter Strength, Speed, Stealth, '
+                           'and Cunning as integers from 1 - 25.')
 
 
 # main, for testing purposes only
