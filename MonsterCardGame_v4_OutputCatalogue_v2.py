@@ -73,23 +73,15 @@ def format_monster_card(monster_name, monster_info):
     return formatted_card
 
 
-def search_card(search_name):
+def print_catalogue():
+    catalogue = '***MONSTER CATALOGUE***\n\n'
     for monster_name, monster_info in monsters.items():
-        if search_name.lower() in monster_name.lower():
-            return monster_name, monster_info
-    return None
+        catalogue += f'{monster_name}\n'
+        for attribute, value in monster_info.items():
+            catalogue += f' - {attribute}: {value}'
+        catalogue += "\n\n"
+
+    easygui.msgbox(catalogue, title='Catalogue')
 
 
-def search():
-    search_term = easygui.enterbox("Enter the name of the monster you want to "
-                                   "search for:", title='End Search')
-    result = search_card(search_term)
-
-    if result:
-        formatted_result = format_monster_card(search_term, result)
-        easygui.msgbox(formatted_result, "Monster Card")
-    else:
-        easygui.msgbox("Monster not found in catalogue.", "Search Result")
-
-
-search()
+print_catalogue()
