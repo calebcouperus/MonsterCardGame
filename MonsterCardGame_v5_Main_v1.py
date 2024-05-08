@@ -173,13 +173,16 @@ def print_catalogue():
     easygui.msgbox(catalogue, title='Catalogue')
 
 
-# main
+# main loop
 while True:
-    choice = easygui.choicebox("Welcome to the Monster Cards Catalogue\n"
-                      "What would you like to do:", title='Main Screen',
-                      choices=("Add a Card", "Search for a Card", "Delete a "
-                                                                  "Card",
-                               "View the Catalogue", "Exit"))
+    choice = easygui.buttonbox("Welcome to the Monster Cards Catalogue\n"
+                               "       What would you like to do:",
+                               title='Main Screen',
+                               choices=(
+                                   "Add a Card", "Search for a Card",
+                                   "Delete a "
+                                   "Card",
+                                   "View the Catalogue", "Exit"))
     if choice == "Add a Card":
         add_card()
 
@@ -189,4 +192,10 @@ while True:
     elif choice == "Delete a Card":
         delete_monster()
 
-    elif choice == "View the Catalogue"
+    elif choice == "View the Catalogue":
+        print_catalogue()
+
+    else:
+        break
+
+easygui.msgbox("Goodbye")
