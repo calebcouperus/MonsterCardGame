@@ -66,13 +66,6 @@ monsters = {
 }
 
 
-def format_monster_card(monster_name, monster_info):
-    formatted_card = f" **Monster Card - {monster_name}** \n\n"
-    for key, value in monster_info.items():
-        formatted_card += f"{key}: {value}\n"
-    return formatted_card
-
-
 def print_catalogue():
     catalogue = '***MONSTER CATALOGUE***\n\n'
     for monster_name, monster_info in monsters.items():
