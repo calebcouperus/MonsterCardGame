@@ -106,7 +106,10 @@ def add_card():
                 except ValueError:
                     easygui.msgbox('Please enter Strength, Speed, Stealth, '
                                    'and Cunning as integers from 1 - 25.')
-        except ValueError:
+        except TypeError:
+            return None
+
+        except (ValueError, IndexError):
             easygui.msgbox('Please enter Strength, Speed, Stealth, '
                            'and Cunning as integers from 1 - 25.')
         else:
@@ -124,13 +127,20 @@ def format_monster_card(monster_name, monster_info):
 def search_card(search_name):
     for monster_name, monster_info in monsters.items():
         if search_name.lower() in monster_name.lower():
+            return monster_info
+    return None
+
+
+def search_card_delete(search_name):
+    for monster_name, monster_info in monsters.items():
+        if search_name.lower() in monster_name.lower():
             return monster_name, monster_info
     return None
 
 
 def search():
     search_term = easygui.enterbox("Enter the name of the monster you want to "
-                                   "search for:", title='End Search')
+                                   "search for:", title='Search')
     result = search_card(search_term)
 
     if result:
@@ -144,12 +154,14 @@ def delete_monster():
     search_term = easygui.enterbox(
         "Enter the name of the monster card you want to delete:",
         title='Enter Search')
-    search_result = search_card(search_term)
+    search_result = search_card_delete(search_term)
 
     if search_result:
         monster_name, monster_info = search_result
         confirm = easygui.boolbox(
-            f"Are you sure you want to delete the Monster Card '{monster_name}'?",
+            f"Are you sure you want to delete the Monster Card '"
+            f"{monster_name}?\n"
+            f"{format_monster_card(monster_name, monster_info)}'",
             title='Confirmation', choices=("Yes", "No"))
 
         if confirm:
