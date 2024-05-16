@@ -66,18 +66,18 @@ monsters = {
 }
 
 
-# Function for adding cards first try is to  for min and max of 1 and
-# 25, looped to allow for a confirmation  message for the user to make sure
-# they have entered what they want too correctly.
+# Function for adding cards
 def add_card():
     while True:
+        # asks user to enter values for new card
         new_card_values = easygui.multenterbox(msg='Enter Valid info:',
                                                fields=(
                                                    'Monster Name:', 'Strength',
                                                    'Speed', 'stealth',
                                                    'cunning'),
                                                values=())
-
+        # attempts to convert values making sure they are correct types to
+        # match other cards
         try:
             card_name = new_card_values[0]
             new_strength = int(new_card_values[1])
@@ -94,18 +94,21 @@ def add_card():
                         'Stealth': new_stealth,
                         'Cunning': new_cunning
                     }
+                    # Confirmation for adding card and user checks card
+                    # details entered are correct
                     monsters[f"{card_name}"] = new_card
                     add_confirmation = easygui.buttonbox(
                         f'Is this what you want on the new '
                         f'card:\n'
-                        f'{new_card}', choices=('Yes', 'No'), title='Add '
-                                                                    'Confir'
-                                                                    'mation')
+                        f'{new_card}', choices=('Yes', 'No'),
+                        title='Add Confirmation')
                     if add_confirmation == 'Yes':
                         break
                 except ValueError:
                     easygui.msgbox('Please enter Strength, Speed, Stealth, '
                                    'and Cunning as integers from 1 - 25.')
+        # Avoid errors from crashing program just warns user to enter correct
+        # inputs
         except TypeError:
             return None
 
@@ -117,6 +120,7 @@ def add_card():
                            'and Cunning as integers from 1 - 25.')
 
 
+# Function to format card to look good
 def format_monster_card(monster_name, monster_info):
     formatted_card = f" **Monster Card - {monster_name}** \n\n"
     for key, value in monster_info.items():
@@ -124,6 +128,7 @@ def format_monster_card(monster_name, monster_info):
     return formatted_card
 
 
+# Function to be called for main search function
 def search_card(search_name):
     for monster_name, monster_info in monsters.items():
         if search_name.lower() in monster_name.lower():
@@ -131,6 +136,8 @@ def search_card(search_name):
     return None
 
 
+# Function for the delete search returns different to other search function
+# as the delete function needs monster_name and monster_info
 def search_card_delete(search_name):
     for monster_name, monster_info in monsters.items():
         if search_name.lower() in monster_name.lower():
@@ -138,11 +145,14 @@ def search_card_delete(search_name):
     return None
 
 
+# Main search function
 def search():
     search_term = easygui.enterbox("Enter the name of the monster you want to "
                                    "search for:", title='Search')
+    # calls searching function
     result = search_card(search_term)
 
+    # if and else to make sure search is in the catalogue
     if result:
         formatted_result = format_monster_card(search_term, result)
         easygui.msgbox(formatted_result, "Monster Card")
@@ -150,12 +160,14 @@ def search():
         easygui.msgbox("Monster not found in catalogue.", "Search Result")
 
 
+# function for deleting cards
 def delete_monster():
     search_term = easygui.enterbox(
         "Enter the name of the monster card you want to delete:",
         title='Enter Search')
     search_result = search_card_delete(search_term)
 
+    # confirmation for delete
     if search_result:
         monster_name, monster_info = search_result
         confirm = easygui.boolbox(
@@ -164,18 +176,23 @@ def delete_monster():
             f"{format_monster_card(monster_name, monster_info)}'",
             title='Confirmation', choices=("Yes", "No"))
 
+        # actually deleting
         if confirm:
             del monsters[monster_name]
             easygui.msgbox(f"Monster '{monster_name}' has been deleted.",
                            "Deletion Successful")
+        # if deletion is cancelled by user
         else:
             easygui.msgbox("Deletion canceled.", "Deletion Canceled")
+    # If deletion is cancelled because users search didn't return a card
     else:
         easygui.msgbox("Monster not found in catalogue.", "Deletion Failed")
 
 
+# Function to print whole catalogue
 def print_catalogue():
-    catalogue = '***MONSTER CATALOGUE***\n\n'
+    # Spaces to centre main title
+    catalogue = '                               ***MONSTER CATALOGUE***\n\n'
     for monster_name, monster_info in monsters.items():
         catalogue += f'{monster_name}\n'
         for attribute, value in monster_info.items():
@@ -187,6 +204,7 @@ def print_catalogue():
 
 # main loop
 while True:
+    # Main UI
     choice = easygui.buttonbox("Welcome to the Monster Cards Catalogue\n"
                                "       What would you like to do:",
                                title='Main Screen',
@@ -207,7 +225,9 @@ while True:
     elif choice == "View the Catalogue":
         print_catalogue()
 
+    # Breaks loop if user selects 'Exit' or the program throws a tantrum
     else:
         break
 
+# Final goodbye message
 easygui.msgbox("Goodbye")
