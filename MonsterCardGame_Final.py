@@ -103,10 +103,14 @@ def add_card():
                         f'{new_card}', choices=('Yes', 'No'),
                         title='Add Confirmation')
                     if add_confirmation == 'Yes':
+                        easygui.msgbox("New Card has been successfully added")
                         break
                 except ValueError:
                     easygui.msgbox('Please enter Strength, Speed, Stealth, '
                                    'and Cunning as integers from 1 - 25.')
+            else:
+                easygui.msgbox('Please enter Strength, Speed, Stealth, '
+                               'and Cunning as integers from 1 - 25.')
         # Avoid errors from crashing program just warns user to enter correct
         # inputs
         except TypeError:
